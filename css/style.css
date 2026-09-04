@@ -456,6 +456,17 @@ a {
         transform 0.25s ease,
         box-shadow 0.25s ease;
 }
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+.card-image .item-number,
+.card-image .condition-badge {
+    z-index: 2;
+}
 
 .clothing-card:hover {
     transform: translateY(-0.3125rem);

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
                 content="Vintage Clothing Boutique."
             >
 
-      <title>Aurelio</title>
+    <title>Aurelio</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -53,12 +52,12 @@
                     </p>
 
                     <h1 id="hero-title">
-                        Clothing 
+                        Clothing
                         <span>Timelessly.</span>
                     </h1>
 
                     <p class="hero-description">
-                        
+
                        A collection of timeless fashion, bringing classic vintage styles and lasting quality together.
                        C'uz Fashion is Timeless...
                     </p>
@@ -200,370 +199,32 @@
 
             <div class="container">
 
-                <div class="lookbook-grid">
+                <!-- Cards are rendered here by js/app.js from data/items.json -->
+                <div class="lookbook-grid"></div>
 
-                    <!-- CARD 1 -->
+                <!-- Template for a single card. app.js clones this and fills in the values — no HTML is built inside the JS file. -->
+                <template id="card-template">
                     <article class="clothing-card">
-
-                        <div class="card-image image-jacket">
-                             <img 
-                         src="assets/images/coat1.jpg" 
-                             alt="Classic Coat"
-                                 >
-                            <span class="item-number">01</span>
-
-                            
+                        <div class="card-image">
+                            <img alt="">
+                            <span class="item-number"></span>
                         </div>
-
                         <div class="card-content">
-
                             <div class="card-meta">
-                                <span>1970s</span>
-                                <span>Outerwear</span>
+                                <span class="meta-era"></span>
+                                <span class="meta-category"></span>
                             </div>
-
-                            <h3>Classic Brown Coat</h3>
-
-                            <p>
-                               Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            <h3 class="card-title"></h3>
+                            <p class="card-description"></p>
                             <div class="card-footer">
-
-                                <strong>₹4,500</strong>
-
-                                <button
-                                    type="button"
-                                    class="details-button"
-                                    aria-label="View details of Classic Denim Jacket"
-                                >
+                                <strong class="card-price"></strong>
+                                <button type="button" class="details-button">
                                     View Details →
                                 </button>
-
                             </div>
-                            
-
                         </div>
-
                     </article>
-
-
-                    <!-- CARD 2 -->
-                    <article class="clothing-card">
-
-                        <div class="card-image image-coat">
-                         <img 
-                         src="assets/images/swaeter1.jpg" 
-                             alt="Classic Coat"
-                                 >
-            }
-                            <span class="item-number">02</span>
-
-                           
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1960s</span>
-                                <span>Outerwear</span>
-                            </div>
-
-                            <h3>Heritage Wool Sweater</h3>
-
-                            <p>
-                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae nulla ipsam molestiae, excepturi molestias nostrum aspernatur veniam consequuntur officiis beatae. 
-
-                            </p>
-
-                                <div class="card-footer">
-
-                                    <strong>₹6,200</strong>
-
-                                    <button
-                                        type="button"
-                                        class="details-button"
-                                        aria-label="View details of Heritage Wool Coat"
-                                    >
-                                        View Details →
-                                    </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                         <article class="clothing-card">
-
-                        <div class="card-image image-coat">
-                            <img 
-                         src="assets/images/jeans.jpg" 
-                             alt="Classic Jeans"
-                                 >
-                            
-                            <span class="item-number">02</span>
-
-                           
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1960s</span>
-                                <span>Lowerwear</span>
-                            </div>
-
-                            <h3>Stylish Baggy Jeans</h3>
-
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus mollitia, delectus ipsa ullam numquam quos, vitae cumque, rerum ex earum fuga esse unde sed quo nemo adipisci dolores harum necessitatibus.
-
-                            </p>
-
-                                <div class="card-footer">
-
-                                    <strong>₹6,200</strong>
-
-                                    <button
-                                        type="button"
-                                        class="details-button"
-                                        aria-label="View details of Heritage Wool Coat"
-                                    >
-                                        View Details →
-                                    </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                     <article class="clothing-card">
-
-                        <div class="card-image image-coat">
-                            <img 
-                         src="assets/images/manshirt.jpg" 
-                             alt="Classic Jeans"
-                                 >
-                            <span class="item-number">02</span>
-
-                            
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1960s</span>
-                                <span>DailyWear</span>
-                            </div>
-
-                            <h3>Men Boho Shirt</h3>
-
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae expedita dignissimos consequuntur nihil rem in at, eius dolor sint ullam porro harum architecto eaque fugit, asperiores facilis nemo veritatis. Nisi.
-
-                            </p>
-
-                                <div class="card-footer">
-
-                                    <strong>₹6,200</strong>
-
-                                    <button
-                                        type="button"
-                                        class="details-button"
-                                        aria-label="View details of Heritage Wool Coat"
-                                    >
-                                        View Details →
-                                    </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                     <article class="clothing-card">
-
-                        <div class="card-image image-coat">
-                            <img 
-                         src="assets/images/manshirt2.jpg" 
-                             alt="Men Boho shirt"
-                                 >
-                            <span class="item-number">02</span>
-
-                            
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1960s</span>
-                                <span>Dailywear</span>
-                            </div>
-
-                            <h3>Boho Men shirt</h3>
-
-                            <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cupiditate ratione rerum soluta dolorum natus laudantium magni, cumque sunt itaque deserunt enim saepe facere similique debitis, quasi ipsam nam quod.
-
-                            </p>
-
-                                <div class="card-footer">
-
-                                    <strong>₹6,200</strong>
-
-                                    <button
-                                        type="button"
-                                        class="details-button"
-                                        aria-label="View details of Heritage Wool Coat"
-                                    >
-                                        View Details →
-                                    </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                     <article class="clothing-card">
-
-                        <div class="card-image image-coat">
-                            <img 
-                         src="assets/images/dress.png" 
-                             alt="Classic dress"
-                                 >
-                            <span class="item-number">02</span>
-
-                            
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1960s</span>
-                                <span>Outwear</span>
-                            </div>
-
-                            <h3>Cute Vintage Dress</h3>
-
-                            <p>
-                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia a maxime tenetur sunt, veniam provident omnis eius ut natus aut possimus repellat. Similique ex dignissimos optio autem? Provident, corporis libero.
-
-                            </p>
-
-                                <div class="card-footer">
-
-                                    <strong>₹6,200</strong>
-
-                                    <button
-                                        type="button"
-                                        class="details-button"
-                                        aria-label="View details of Heritage Wool Coat"
-                                    >
-                                        View Details →
-                                    </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                    <!-- CARD 3 -->
-                    <article class="clothing-card">
-
-                        <div class="card-image image-dress">
-                             <img 
-                         src="assets/images/jacket.jpg" 
-                             alt="Classic Jacket"
-                                 >
-                            <span class="item-number">03</span>
-
-                           
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1950s</span>
-                                <span>Jacket</span>
-                            </div>
-
-                            <h3>Cool Jacket</h3>
-
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat ipsam facilis exercitationem maxime officiis, laborum perspiciatis eos laudantium, fugit tempora sit saepe explicabo, dicta unde iste. Ipsum ad sunt nihil!
-                            </p>
-
-                            <div class="card-footer">
-
-                                <strong>₹7,800</strong>
-
-                                <button
-                                    type="button"
-                                    class="details-button"
-                                    aria-label="View details of Silk Evening Dress"
-                                >
-                                    View Details →
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- CARD 4 -->
-                    <article class="clothing-card">
-
-                        <div class="card-image image-jeans">
-                             <img 
-                         src="assets/images/kurti.jpg" 
-                             alt="Classic dress"
-                                 >
-                            <span class="item-number">04</span>
-
-                           
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="card-meta">
-                                <span>1980s</span>
-                                <span>Kurti</span>
-                            </div>
-
-                            <h3>Cute Kurit</h3>
-
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, repellat blanditiis laborum quis laudantium natus. Harum, maxime. Temporibus non fuga dolorem aspernatur cupiditate, nobis similique expedita quo necessitatibus blanditiis assumenda.
-                            </p>
-
-                            <div class="card-footer">
-
-                                <strong>₹3,900</strong>
-
-                                <button
-                                    type="button"
-                                    class="details-button"
-                                    aria-label="View details of High-Waist Denim"
-                                >
-                                    View Detail →
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-
-              
+                </template>
 
                 <div class="empty-state" hidden>
 
@@ -788,7 +449,7 @@
 
             <div>
                 <a href="#" class="footer-brand">
-                    
+
                 </a>
 
                 <p>
@@ -812,6 +473,7 @@
 
     </footer>
 
+    <script src="script/script.js" defer></script>
+
 </body>
 </html>
-

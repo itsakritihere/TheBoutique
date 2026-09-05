@@ -24,15 +24,10 @@
     <span class="brand-name">Aurelio</span>
 </a>
 
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="#lookbook">Lookbook</a>
-                <a href="#categories">Categories</a>
-                <a href="#about">About</a>
+            <nav class="primary-nav" aria-label="Main navigation">
+                 <button type="button" class="nav-link is-active" id="nav-catalog" aria-current="page">Catalog</button>
+                <button type="button" class="nav-link" id="nav-add">Add a piece</button>
             </nav>
-
-            <a href="#add-item" class="header-action">
-                Add Item
-            </a>
 
         </div>
     </header>
@@ -106,111 +101,55 @@
 
 
                 <!-- ====== SEARCH =========== -->
-                <div class="catalog-controls">
+                <div class="catalog-controls" aria-label="Search and filter the collection">
 
-                    <div class="search-box" id="search-form">
-                        <label for="search">
+              <div class="field field--search">
+                        <label for="search-input">
+                            
                             Search the Collection
                         </label>
-                        <div class="search-input-wrapper">
-                
-
-                            <input
-                                type="search"
-                                id="search"
-                                name="search"
-                                placeholder="Search by clothing name..."
-                               aria-label="Search vintage clothing"
-                            >
-                            <button 
-                            type="submit"
-                            class="search-button"
-                            aria-label=""Search
-                            >
-                             ⌕
-                        </button>
-
-                        </div>
+                         <input
+                            type="search"
+                            id="search-input"
+                            name="search"
+                            class="field__input"
+                            placeholder="Search by title, SKU, or description"
+                            autocomplete="off"
+                        >
                     </div>
-
-
-                    <!-- =========== FILTERS ============ -->
-                    <div class="category-filter" id="categories">
-
-                        <span class="filter-label">
-                            Category
-                        </span>
-
-                        <div class="filter-buttons">
-
-                            <button
-                                type="button"
-                                class="filter-button active"
-                                aria-pressed="true"
-                            >
-                                All
-                            </button>
-
-                            <button
-                                type="button"
-                                class="filter-button"
-                                aria-pressed="false"
-                            >
-                                Jackets
-                            </button>
-
-                            <button
-                                type="button"
-                                class="filter-button"
-                                aria-pressed="false"
-                            >
-                                Coats
-                            </button>
-
-                            <button
-                                type="button"
-                                class="filter-button"
-                                aria-pressed="false"
-                            >
-                                Dresses
-                            </button>
-
-                            <button
-                                type="button"
-                                class="filter-button"
-                                aria-pressed="false"
-                            >
-                                Denim
-                            </button>
-                            <button
-                                type="button"
-                                class="filter-button"
-                                aria-pressed="false"
-                            >
-                                Accessories
-                            </button>
-
+                        <div class="filters-row">
+                        <div class="field">
+                            <label for="category-filter" class="field__label">Category</label>
+                            <select id="category-filter" class="field__input" name="category">
+                                <option value="">All categories</option>
+                            </select>
                         </div>
-
+                         <div class="field">
+                            <label for="era-filter" class="field__label">Era</label>
+                            <select id="era-filter" class="field__input" name="era">
+                                <option value="">All eras</option>
+                            </select>
+                        </div>
+ 
+                        <button type="button" id="clear-filters" class="btn btn--ghost">Clear filters</button>
                     </div>
-
+ 
+                    <p class="controls__count" id="result-count" role="status" aria-live="polite"></p>
+ 
                 </div>
-
+ 
             </div>
         </section>
-
-
-        <!-- =========== LOOKBOOK ======== -->
-        <section class="lookbook-section" aria-label="Vintage clothing collection">
-
+                         <section class="lookbook-section" aria-label="Vintage clothing collection">
+ 
             <div class="container">
-
-
+ 
                 <div class="lookbook-grid"></div>
-
-                <div clas="empty-state" hidden>
-                    <p>Loading Collection...</p>
+ 
+                <div class="loading-state" hidden>
+                    <p>Loading Collection</p>
                 </div>
+ 
                 <template id="card-template">
                     <article class="clothing-card">
                         <div class="card-image">
@@ -227,106 +166,106 @@
                             <div class="card-footer">
                                 <strong class="card-price"></strong>
                                 <button type="button" class="details-button">
-                                    View Details →
+                                    View Details &rarr;
                                 </button>
                             </div>
                         </div>
                     </article>
                 </template>
-
+ 
                 <div class="empty-state" hidden>
-
+ 
                     <div class="empty-icon" aria-hidden="true">
-                        —
+                        &mdash;
                     </div>
-
+ 
                     <h3>No data found</h3>
-
+ 
                     <p>
                         We couldn't find any clothing matching your search.
                     </p>
-
+ 
                     <button type="button" class="button button-dark">
                         Clear Search
                     </button>
-
+ 
                 </div>
-
+ 
             </div>
-
+ 
         </section>
-
-
+ 
+ 
         <!-- ========== ABOUT ========== -->
         <section class="about-section" id="about">
-
+ 
             <div class="container about-grid">
-
+ 
                 <div class="about-label">
                     <p class="eyebrow">THE ARCHIVE</p>
                     <span>01 / 03</span>
                 </div>
-
+ 
                 <div class="about-content">
-
+ 
                     <h2>
                         Preserving pieces
                         <em>worth remembering.</em>
                     </h2>
-
+ 
                     <p>
                         Maison Vintage brings together carefully selected
                         clothing from different eras. Each piece is evaluated
                         for its craftsmanship, condition and cultural
                         character before entering our archive.
                     </p>
-
+ 
                     <a href="#add-item" class="text-link">
-                        Add to the archive →
+                        Add to the archive &rarr;
                     </a>
-
+ 
                 </div>
-
+ 
             </div>
-
+ 
         </section>
-
-
+ 
+ 
         <!-- ================= ADD ITEM ================= -->
         <section class="add-item-section" id="add-item">
-
+ 
             <div class="container add-item-grid">
-
+ 
                 <div class="add-item-intro">
-
+ 
                     <p class="eyebrow">
                         STAFF ACCESS
                     </p>
-
+ 
                     <h2>
                         Add a piece
                         <span>to the archive.</span>
                     </h2>
-
-                        <p>
-                            Record a new vintage piece so the floor team can
-                            access its details from the digital lookbook.
-                        </p>
-
+ 
+                    <p>
+                        Record a new vintage piece so the floor team can
+                        access its details from the digital lookbook.
+                    </p>
+ 
                 </div>
-
-
-                <form class="item-form" novalidate>
-
+ 
+ 
+                <form class="item-form" id="item-form" novalidate>
+ 
                     <div class="form-row">
-
+ 
                         <div class="form-field">
-
+ 
                             <label for="item-name">
                                 Item Name
                                 <span aria-hidden="true">*</span>
                             </label>
-
+ 
                             <input
                                 type="text"
                                 id="item-name"
@@ -335,153 +274,161 @@
                                 required
                                 aria-required="true"
                             >
-
+ 
                         </div>
-
-
+ 
+ 
                         <div class="form-field">
-
+ 
                             <label for="item-category">
                                 Category
                                 <span aria-hidden="true">*</span>
                             </label>
-
+ 
                             <select
                                 id="item-category"
                                 name="item-category"
                                 required
                                 aria-required="true"
                             >
-                                        <option value="">
-                                            Select category
-                                        </option>
-
+                                <option value="">
+                                    Select category
+                                </option>
+ 
                                 <option value="jackets">
                                     Jackets
                                 </option>
-
+ 
                                 <option value="coats">
                                     Coats
                                 </option>
-
+ 
                                 <option value="dresses">
                                     Dresses
                                 </option>
-
+ 
                                 <option value="denim">
                                     Denim
                                 </option>
+ 
+                                <option value="dailywear">
+                                    Dailywear
+                                </option>
+ 
+                                <option value="accessories">
+                                    Accessories
+                                </option>
                             </select>
-
+ 
                         </div>
-
+ 
                     </div>
-
-
+ 
+ 
                     <div class="form-row">
-
+ 
                         <div class="form-field">
-
+ 
                             <label for="item-era">
                                 Era
                             </label>
-
+ 
                             <input
                                 type="text"
                                 id="item-era"
                                 name="item-era"
                                 placeholder="e.g. 1970s"
                             >
-
+ 
                         </div>
-
-
+ 
+ 
                         <div class="form-field">
-
+ 
                             <label for="item-price">
                                 Price
                                 <span aria-hidden="true">*</span>
                             </label>
-
-                                <input
-                                    type="number"
-                                    id="item-price"
-                                    name="item-price"
-                                    placeholder="e.g. 4500"
-                                    min="0"
-                                    required
-                                    aria-required="true"
-                                >
-
+ 
+                            <input
+                                type="number"
+                                id="item-price"
+                                name="item-price"
+                                placeholder="e.g. 4500"
+                                min="0"
+                                required
+                                aria-required="true"
+                            >
+ 
                         </div>
-
+ 
                     </div>
-
-
+ 
+ 
                     <div class="form-field">
-
+ 
                         <label for="item-description">
-                            Descriptions
+                            Description
                         </label>
-
-                                <textarea
-                                    id="item-description"
-                                    name="item-description"
-                                    rows="4"
-                                    placeholder="Descrive itme collection andd "
-                                ></textarea>
-
+ 
+                        <textarea
+                            id="item-description"
+                            name="item-description"
+                            rows="4"
+                            placeholder="Describe the item, its condition, and any notable details"
+                        ></textarea>
+ 
                     </div>
-
-
+ 
+ 
                     <button
                         type="submit"
                         class="button button-dark form-submit"
                     >
                         Add to Lookbook
                     </button>
-
+ 
                 </form>
-
+ 
             </div>
-
+ 
         </section>
-
+ 
     </main>
-
-
+ 
+ 
     <!-- ============ FOOTER ================= -->
     <footer class="web-footer">
-
+ 
         <div class="container footer-inner">
-
+ 
             <div>
                 <a href="#" class="footer-brand">
-
+                    Aurelio
                 </a>
-
+ 
                 <p>
                     Timeless clothing we offer
                 </p>
             </div>
-
+ 
             <div class="footer-links">
-
-                        <a href="#lookbook">Lookbook</a>
-                        <a href="#categories">Categories</a>
-                        <a href="#about">About</a>
-
+                <a href="#lookbook">Lookbook</a>
+                <a href="#lookbook">Categories</a>
+                <a href="#about">About</a>
             </div>
-
+ 
             <p class="copyright">
-               no copyright plss
+                &copy; 2026 Aurelio Vintage. All rights reserved.
             </p>
-
+ 
         </div>
-
+ 
     </footer>
-
+ 
     <script src="script/script.js" defer></script>
-
+ 
 </body>
 </html>
+ 
+                  

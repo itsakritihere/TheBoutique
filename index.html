@@ -108,14 +108,12 @@
                 <!-- ====== SEARCH =========== -->
                 <div class="catalog-controls">
 
-                    <div class="search-box">
+                    <div class="search-box" id="search-form">
                         <label for="search">
                             Search the Collection
                         </label>
                         <div class="search-input-wrapper">
-                            <span class="search-icon" aria-hidden="true">
-                                ⌕
-                            </span>
+                
 
                             <input
                                 type="search"
@@ -124,6 +122,14 @@
                                 placeholder="Search by clothing name..."
                                aria-label="Search vintage clothing"
                             >
+                            <button 
+                            type="submit"
+                            class="search-button"
+                            aria-label=""Search
+                            >
+                             ⌕
+                        </button>
+
                         </div>
                     </div>
 
@@ -199,10 +205,12 @@
 
             <div class="container">
 
-                <!-- Cards are rendered here by js/app.js from data/items.json -->
+
                 <div class="lookbook-grid"></div>
 
-                <!-- Template for a single card. app.js clones this and fills in the values — no HTML is built inside the JS file. -->
+                <div clas="empty-state" hidden>
+                    <p>Loading Collection...</p>
+                </div>
                 <template id="card-template">
                     <article class="clothing-card">
                         <div class="card-image">

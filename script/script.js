@@ -1,9 +1,9 @@
-// ---- Aurelio Lookbook: data-driven rendering ----
 
 const state = {
     items: [],
     activeCategory: "all",
     searchTerm: "",
+    isLoading: true
 };
 
 const grid = document.querySelector(".lookbook-grid");
@@ -12,9 +12,8 @@ const searchInput = document.getElementById("search");
 const filterButtons = document.querySelectorAll(".filter-button");
 const clearSearchBtn = document.querySelector(".empty-state .button");
 const cardTemplate = document.getElementById("card-template");
-
-// Maps a category value to the CSS class used on .card-image
-// (mirrors the image-jacket / image-coat / image-dress / image-jeans classes)
+const loadingState = document.querySelector(".loading-state");
+const searchForm = document.getElementById("search-form");
 function imageClassFor(category) {
     const map = {
         jackets: "image-jacket",
@@ -25,12 +24,10 @@ function imageClassFor(category) {
     return map[category] || "image-coat";
 }
 
-function formatPrice(price) {
-    return `₹${price.toLocaleString("en-IN")}`;
-}
 
-// Clones the <template id="card-template"> from the HTML and
-// fills in each field with the item's data. No HTML is built here.
+function formatPrice(price) {
+    return `${price.toLocaleString("en-IN")}`;
+}
 function buildCard(item) {
     const card = cardTemplate.content.cloneNode(true);
 
@@ -45,12 +42,10 @@ function buildCard(item) {
     img.alt = item.alt;
 
     card.querySelector(".item-number").textContent = item.number;
-    
     card.querySelector(".meta-category").textContent = item.displayCategory;
     card.querySelector(".card-title").textContent = item.name;
     card.querySelector(".card-description").textContent = item.description;
     card.querySelector(".card-price").textContent = formatPrice(item.price);
-
     const button = card.querySelector(".details-button");
     button.setAttribute("aria-label", `View details of ${item.name}`);
 
@@ -60,7 +55,7 @@ function buildCard(item) {
 function getFilteredItems() {
     return state.items.filter((item) => {
         const matchesCategory =
-            state.activeCategory === "all" ||
+        state.activeCategory === "all" ||
             item.category === state.activeCategory;
 
         const matchesSearch = item.name
@@ -72,21 +67,31 @@ function getFilteredItems() {
 }
 
 function render() {
-    const filtered = getFilteredItems();
-
-    if (filtered.length === 0) {
+    if(state.isLoading){
         grid.hidden = true;
-        emptyState.hidden = false;
+        emptyState.hidden = true;
+        loadingState.hidden = false;
         return;
     }
+    loadingState.hidden= true;
 
-    grid.hidden = false;
+    const filtered = getFilteredItems();
+
+    if (filtered.length > 0) {
+       
+
+   
     emptyState.hidden = true;
+        grid.hidden = false;
     grid.innerHTML = "";
 
     filtered.forEach((item) => {
         grid.appendChild(buildCard(item));
     });
+    return;
+}
+grid.hidden = true;
+    emptyState.hidden = false;
 }
 
 function setActiveFilter(category, clickedButton) {
@@ -103,19 +108,24 @@ function setActiveFilter(category, clickedButton) {
 
 async function loadItems() {
     try {
+        state.isLoading =true;
+        render();
+
         const response = await fetch("../assets/data/data.json");
         if (!response.ok) {
             throw new Error(`Failed to load items.json: ${response.status}`);
         }
         state.items = await response.json();
+        state.isLoading = false;
         render();
     } catch (error) {
         console.error("Could not load lookbook items:", error);
-        grid.innerHTML = `<p>Sorry, the lookbook couldn't be loaded right now.</p>`;
-    }
+        state.isLoading = false;
+        grid.hidden = true;
+        loadingState.hidden = true;
+        emptyState.hidden = false;
+    }  
 }
-
-// ---- Event wiring ----
 
 filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {

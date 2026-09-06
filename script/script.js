@@ -24,7 +24,7 @@ let deletedIds = loadFromStorage(STORAGE_KEY_DELETED);
 
 const state = {
     items: [],
-    nextId: 1,
+   
     activeCategory: "",
     searchTerm: "",
     isLoading: true
@@ -263,7 +263,7 @@ async function loadItems() {
         );
 
         state.items = merged;
-        state.nextId = state.items.reduce((max, item) => Math.max(max, Number(item.id) || 0), 0) + 1;
+        
 
         state.isLoading = false;
         populateFilters();
@@ -343,7 +343,7 @@ if (itemForm) {
         const categoryLabel = categoryField.options[categoryField.selectedIndex].textContent.trim();
 
         const newItem = {
-            id: state.nextId++,
+              id: Date.now(),
             number: String(state.items.length + 1).padStart(2, "0"),
             name: sanitiseText(name),
             displayCategory: categoryLabel,

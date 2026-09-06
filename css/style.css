@@ -319,6 +319,11 @@ a {
 .btn--search:hover {
     background: var(--dark-gray);
 }
+.btn--search:hover {
+    border-color: var(--black);
+    background: var(--dark-gray);
+    color: var(--white);
+}
 /* ============= HERO VISUAL =========== */
 
 .hero-visual {

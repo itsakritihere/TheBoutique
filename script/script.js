@@ -1,151 +1,346 @@
 
 const state = {
     items: [],
-    activeCategory: "all",
+    nextId:1,
+    activeCategory: "",
+    activeEra: "",
     searchTerm: "",
     isLoading: true
 };
 
 const grid = document.querySelector(".lookbook-grid");
 const emptyState = document.querySelector(".empty-state");
-const searchInput = document.getElementById("search");
-const filterButtons = document.querySelectorAll(".filter-button");
-const clearSearchBtn = document.querySelector(".empty-state .button");
-const cardTemplate = document.getElementById("card-template");
 const loadingState = document.querySelector(".loading-state");
-const searchForm = document.getElementById("search-form");
+const cardTemplate = document.getElementById("card-template");
+ 
+const searchInput = document.getElementById("search-input");
+const categoryFilter = document.getElementById("category-filter");
+const eraFilter = document.getElementById("era-filter");
+const clearFiltersBtn = document.getElementById("clear-filters");
+const resultCount = document.getElementById("result-count");
+const clearSearchBtn = emptyState ? emptyState.querySelector(".button") : null;
+ 
+const navCatalog = document.getElementById("nav-catalog");
+const navAdd = document.getElementById("nav-add");
+ 
+const itemForm = document.getElementById("item-form");
+
 function imageClassFor(category) {
     const map = {
         jackets: "image-jacket",
         coats: "image-coat",
         dresses: "image-dress",
         denim: "image-jeans",
+        dailywear: "image-dress",
+        accessories: "image-jacket"
     };
-    return map[category] || "image-coat";
+    return map[(category || "").toLowerCase()] || "image-coat";
 }
 
 
 function formatPrice(price) {
-    return `${price.toLocaleString("en-IN")}`;
+    const value = Number(price) || 0;
+    return `\u20B9${value.toLocaleString("en-IN")}`;
 }
+ 
+function capitalize(str) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function buildCard(item) {
     const card = cardTemplate.content.cloneNode(true);
-
+ 
     const article = card.querySelector(".clothing-card");
-    article.dataset.category = item.category;
-
+    article.dataset.category = (item.category || "").toLowerCase();
+ 
     const imageWrap = card.querySelector(".card-image");
     imageWrap.classList.add(imageClassFor(item.category));
-
+ 
     const img = card.querySelector("img");
     img.src = item.image;
-    img.alt = item.alt;
-
-    card.querySelector(".item-number").textContent = item.number;
-    card.querySelector(".meta-category").textContent = item.displayCategory;
+    img.alt = item.alt || item.name;
+    img.loading = "lazy";
+    // if the image fails to load, fall back to the gradient placeholder
+    img.addEventListener("error", () => {
+        img.remove();
+    });
+ 
+    const numberEl = card.querySelector(".item-number");
+    if (numberEl) numberEl.textContent = item.number ? `No. ${item.number}` : "";
+ 
+    const eraEl = card.querySelector(".meta-era");
+    if (eraEl) eraEl.textContent = item.era || "";
+ 
+    const categoryEl = card.querySelector(".meta-category");
+    if (categoryEl) categoryEl.textContent = item.displayCategory || capitalize(item.category);
+ 
     card.querySelector(".card-title").textContent = item.name;
-    card.querySelector(".card-description").textContent = item.description;
+    card.querySelector(".card-description").textContent = item.description || "";
     card.querySelector(".card-price").textContent = formatPrice(item.price);
+ 
     const button = card.querySelector(".details-button");
-    button.setAttribute("aria-label", `View details of ${item.name}`);
-
+    if (button) button.setAttribute("aria-label", `View details of ${item.name}`);
+ 
     return card;
 }
-
+ 
 function getFilteredItems() {
+    const term = state.searchTerm.trim().toLowerCase();
+ 
     return state.items.filter((item) => {
         const matchesCategory =
-        state.activeCategory === "all" ||
-            item.category === state.activeCategory;
-
-        const matchesSearch = item.name
-            .toLowerCase()
-            .includes(state.searchTerm.toLowerCase());
-
-        return matchesCategory && matchesSearch;
+            !state.activeCategory ||
+            (item.category || "").toLowerCase() === state.activeCategory;
+ 
+        const matchesEra =
+            !state.activeEra ||
+            (item.era || "").toLowerCase() === state.activeEra;
+ 
+        const matchesSearch =
+            !term ||
+            item.name.toLowerCase().includes(term) ||
+            (item.description || "").toLowerCase().includes(term) ||
+            String(item.id).includes(term);
+ 
+        return matchesCategory && matchesEra && matchesSearch;
     });
 }
-
+ 
+function updateResultCount(count) {
+    if (!resultCount) return;
+    resultCount.textContent = `${count} item${count === 1 ? "" : "s"} found`;
+}
+ 
 function render() {
-    if(state.isLoading){
-        grid.hidden = true;
-        emptyState.hidden = true;
-        loadingState.hidden = false;
+    if (state.isLoading) {
+        if (grid) grid.hidden = true;
+        if (emptyState) emptyState.hidden = true;
+        if (loadingState) loadingState.hidden = false;
         return;
     }
-    loadingState.hidden= true;
-
+    if (loadingState) loadingState.hidden = true;
+ 
     const filtered = getFilteredItems();
-
+    updateResultCount(filtered.length);
+ 
     if (filtered.length > 0) {
-       
-
-   
-    emptyState.hidden = true;
-        grid.hidden = false;
-    grid.innerHTML = "";
-
-    filtered.forEach((item) => {
-        grid.appendChild(buildCard(item));
+        if (emptyState) emptyState.hidden = true;
+        if (grid) {
+            grid.hidden = false;
+            grid.innerHTML = "";
+            filtered.forEach((item) => grid.appendChild(buildCard(item)));
+        }
+        return;
+    }
+ 
+    if (grid) grid.hidden = true;
+    if (emptyState) emptyState.hidden = false;
+}
+ 
+/* ---------- filters ---------- */
+ 
+function populateFilters() {
+    if (!categoryFilter) return;
+ 
+    // reset to just the default option before rebuilding
+    categoryFilter.length = 1;
+    if (eraFilter) eraFilter.length = 1;
+ 
+    const categories = new Map();
+    const eras = new Map();
+ 
+    state.items.forEach((item) => {
+        if (item.category) {
+            const key = item.category.toLowerCase();
+            if (!categories.has(key)) {
+                categories.set(key, item.displayCategory || capitalize(item.category));
+            }
+        }
+        if (item.era) {
+            const key = item.era.toLowerCase();
+            if (!eras.has(key)) eras.set(key, item.era);
+        }
     });
-    return;
-}
-grid.hidden = true;
-    emptyState.hidden = false;
-}
-
-function setActiveFilter(category, clickedButton) {
-    state.activeCategory = category;
-
-    filterButtons.forEach((btn) => {
-        const isActive = btn === clickedButton;
-        btn.classList.toggle("active", isActive);
-        btn.setAttribute("aria-pressed", String(isActive));
+ 
+    categories.forEach((label, value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        categoryFilter.appendChild(option);
     });
-
-    render();
+ 
+    if (eraFilter) {
+        const eraField = eraFilter.closest(".field");
+        if (eras.size === 0) {
+            if (eraField) eraField.hidden = true;
+        } else {
+            if (eraField) eraField.hidden = false;
+            eras.forEach((label, value) => {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = label;
+                eraFilter.appendChild(option);
+            });
+        }
+    }
 }
-
+ 
+/* ---------- data loading ---------- */
+ 
 async function loadItems() {
     try {
-        state.isLoading =true;
+        state.isLoading = true;
         render();
-
-        const response = await fetch("../assets/data/data.json");
+ 
+        const response = await fetch("assets/data/data.json");
         if (!response.ok) {
-            throw new Error(`Failed to load items.json: ${response.status}`);
+            throw new Error(`Failed to load data.json: ${response.status}`);
         }
-        state.items = await response.json();
+ 
+        const data = await response.json();
+        state.items = Array.isArray(data) ? data : [];
+        state.nextId = state.items.reduce((max, item) => Math.max(max, Number(item.id) || 0), 0) + 1;
+ 
         state.isLoading = false;
+        populateFilters();
         render();
     } catch (error) {
         console.error("Could not load lookbook items:", error);
         state.isLoading = false;
-        grid.hidden = true;
-        loadingState.hidden = true;
-        emptyState.hidden = false;
-    }  
+        if (grid) grid.hidden = true;
+        if (loadingState) loadingState.hidden = true;
+        if (emptyState) emptyState.hidden = false;
+    }
 }
-
-filterButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        const label = btn.textContent.trim().toLowerCase();
-        const category = label === "all" ? "all" : label;
-        setActiveFilter(category, btn);
+ 
+/* ---------- event wiring: search & filters ---------- */
+ 
+if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+        state.searchTerm = e.target.value;
+        render();
     });
-});
-
-searchInput.addEventListener("input", (e) => {
-    state.searchTerm = e.target.value;
+}
+ 
+if (categoryFilter) {
+    categoryFilter.addEventListener("change", (e) => {
+        state.activeCategory = e.target.value;
+        render();
+    });
+}
+ 
+if (eraFilter) {
+    eraFilter.addEventListener("change", (e) => {
+        state.activeEra = e.target.value;
+        render();
+    });
+}
+ 
+function clearAllFilters() {
+    state.searchTerm = "";
+    state.activeCategory = "";
+    state.activeEra = "";
+    if (searchInput) searchInput.value = "";
+    if (categoryFilter) categoryFilter.value = "";
+    if (eraFilter) eraFilter.value = "";
     render();
-});
-
-if (clearSearchBtn) {
-    clearSearchBtn.addEventListener("click", () => {
-        state.searchTerm = "";
-        searchInput.value = "";
-        setActiveFilter("all", filterButtons[0]);
+}
+ 
+if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearAllFilters);
+if (clearSearchBtn) clearSearchBtn.addEventListener("click", clearAllFilters);
+ 
+/* ---------- nav: scroll between Catalog / Add a piece ---------- */
+ 
+function setActiveNav(button) {
+    [navCatalog, navAdd].forEach((btn) => {
+        if (!btn) return;
+        const isActive = btn === button;
+        btn.classList.toggle("is-active", isActive);
+        if (isActive) {
+            btn.setAttribute("aria-current", "page");
+        } else {
+            btn.removeAttribute("aria-current");
+        }
     });
 }
-
+ 
+if (navCatalog) {
+    navCatalog.addEventListener("click", () => {
+        setActiveNav(navCatalog);
+        document.getElementById("lookbook")?.scrollIntoView({ behavior: "smooth" });
+    });
+}
+ 
+if (navAdd) {
+    navAdd.addEventListener("click", () => {
+        setActiveNav(navAdd);
+        document.getElementById("add-item")?.scrollIntoView({ behavior: "smooth" });
+    });
+}
+ 
+/* ---------- add-item form ---------- */
+ 
+function setFieldError(field, hasError) {
+    const wrapper = field.closest(".form-field");
+    if (wrapper) wrapper.classList.toggle("has-error", hasError);
+}
+ 
+if (itemForm) {
+    itemForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+ 
+        const nameField = document.getElementById("item-name");
+        const categoryField = document.getElementById("item-category");
+        const eraField = document.getElementById("item-era");
+        const priceField = document.getElementById("item-price");
+        const descriptionField = document.getElementById("item-description");
+ 
+        const name = nameField.value.trim();
+        const category = categoryField.value;
+        const price = priceField.value;
+ 
+        let isValid = true;
+ 
+        setFieldError(nameField, !name);
+        if (!name) isValid = false;
+ 
+        setFieldError(categoryField, !category);
+        if (!category) isValid = false;
+ 
+        const priceIsValid = price !== "" && Number(price) >= 0;
+        setFieldError(priceField, !priceIsValid);
+        if (!priceIsValid) isValid = false;
+ 
+        if (!isValid) return;
+ 
+        const categoryLabel = categoryField.options[categoryField.selectedIndex].textContent.trim();
+ 
+        const newItem = {
+            id: state.nextId++,
+            number: String(state.items.length + 1).padStart(2, "0"),
+            name,
+            displayCategory: categoryLabel,
+            category,
+            era: eraField.value.trim(),
+            price: Number(price),
+            image: "",
+            alt: name,
+            description: descriptionField.value.trim()
+        };
+ 
+        state.items.push(newItem);
+        populateFilters();
+        render();
+ 
+        console.log("[Analytics] User interacted with Vintage Clothing Boutique Lookbook: item added");
+ 
+        itemForm.reset();
+        [nameField, categoryField, priceField].forEach((field) => setFieldError(field, false));
+ 
+        document.getElementById("lookbook")?.scrollIntoView({ behavior: "smooth" });
+        setActiveNav(navCatalog);
+    });
+}
+ 
 loadItems();

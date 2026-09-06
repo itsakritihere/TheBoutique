@@ -69,6 +69,11 @@ function capitalize(str) {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
+function sanitiseText(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
 
 function buildCard(item) {
     const card = cardTemplate.content.cloneNode(true);
@@ -372,14 +377,14 @@ if (itemForm) {
         const newItem = {
             id: state.nextId++,
             number: String(state.items.length + 1).padStart(2, "0"),
-            name,
+            name: sanitiseText(name),
             displayCategory: categoryLabel,
             category,
             era: eraField.value.trim(),
             price: Number(price),
             image: "",
-            alt: name,
-            description: descriptionField.value.trim()
+            alt: sanitiseText(name),
+            description: sanitiseText(descriptionField.value.trim())
         };
  
         state.items.push(newItem);

@@ -1,9 +1,9 @@
 [{
     "id": 1,
-    "number": "01",
+  
     "name": "Classic Brown Coat",
     "displayCategory": "Outerwear",
-    "category": "Coats",
+    "category": "coats",
     "price": 3000,
     "image": "assets/images/coat1.jpg",
     "alt": "Classic Coat",
@@ -12,7 +12,7 @@
 {
     
     "id": 2,
-    "number": "02",
+    
     "name": "Heritage Wool Sweater",
    
     "displayCategory": "Outerwear",
@@ -24,7 +24,7 @@
   },
   {
     "id": 3,
-    "number": "02",
+  
     "name": "Stylish Baggy Jeans",
    
     "displayCategory": "Lowerwear",
@@ -36,7 +36,7 @@
   },
   {
     "id": 4,
-    "number": "02",
+    
     "name": "Men Boho Shirt",
    
     "displayCategory": "DailyWear",
@@ -48,7 +48,7 @@
   },
   {
     "id": 5,
-    "number": "02",
+   
     "name": "Boho Men shirt",
    
     "displayCategory": "Dailywear",
@@ -60,7 +60,7 @@
   },
   {
     "id": 6,
-    "number": "02",
+
     "name": "Cute Vintage Dress",
  
     "displayCategory": "Outwear",
@@ -72,7 +72,7 @@
   },
   {
     "id": 7,
-    "number": "03",
+  
     "name": "Cool Jacket",
   
     "displayCategory": "Jacket",
@@ -84,10 +84,10 @@
   },
   {
     "id": 8,
-    "number": "04",
+   
     "name": "Cute Kurti",
   
-    "displayCategory": "Kurti",
+    "displayCategory": "dress",
     "category": "accessories",
     "price": 3900,
     "image": "assets/images/kurti.jpg",

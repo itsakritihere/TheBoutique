@@ -5,7 +5,7 @@
     "displayCategory": "Outerwear",
     "category": "coats",
     "price": 3000,
-    "image": "assets/images/coat1.jpg",
+    "image": "assets/images/coat1.webp",
     "alt": "Classic Coat",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae nulla ipsam molestiae, excepturi molestias nostrum aspernatur veniam consequuntur officiis beatae."
 },
@@ -18,7 +18,7 @@
     "displayCategory": "Outerwear",
     "category": "coats",
     "price": 6200,
-    "image": "assets/images/swaeter1.jpg",
+    "image": "assets/images/swaeter1.webp",
     "alt": "Classic Coat",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae nulla ipsam molestiae, excepturi molestias nostrum aspernatur veniam consequuntur officiis beatae."
   },
@@ -30,7 +30,7 @@
     "displayCategory": "Lowerwear",
     "category": "denim",
     "price": 6200,
-    "image": "assets/images/jeans.jpg",
+    "image": "assets/images/jeans.webp",
     "alt": "Classic Jeans",
     "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus mollitia, delectus ipsa ullam numquam quos, vitae cumque, rerum ex earum fuga esse unde sed quo nemo adipisci dolores harum necessitatibus."
   },
@@ -42,7 +42,7 @@
     "displayCategory": "DailyWear",
     "category": "dailywear",
     "price": 6200,
-    "image": "assets/images/manshirt.jpg",
+    "image": "assets/images/manshirt.webp",
     "alt": "Classic Jeans",
     "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae expedita dignissimos consequuntur nihil rem in at, eius dolor sint ullam porro harum architecto eaque fugit, asperiores facilis nemo veritatis. Nisi."
   },
@@ -54,7 +54,7 @@
     "displayCategory": "Dailywear",
     "category": "dailywear",
     "price": 6200,
-    "image": "assets/images/manshirt2.jpg",
+    "image": "assets/images/manshirt2.webp",
     "alt": "Men Boho shirt",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cupiditate ratione rerum soluta dolorum natus laudantium magni, cumque sunt itaque deserunt enim saepe facere similique debitis, quasi ipsam nam quod."
   },
@@ -66,7 +66,7 @@
     "displayCategory": "Outwear",
     "category": "dresses",
     "price": 6200,
-    "image": "assets/images/dress.png",
+    "image": "assets/images/dress.webp",
     "alt": "Classic dress",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia a maxime tenetur sunt, veniam provident omnis eius ut natus aut possimus repellat. Similique ex dignissimos optio autem? Provident, corporis libero."
   },
@@ -78,7 +78,7 @@
     "displayCategory": "Jacket",
     "category": "jackets",
     "price": 7800,
-    "image": "assets/images/jacket.jpg",
+    "image": "assets/images/jacket.webp",
     "alt": "Classic Jacket",
     "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat ipsam facilis exercitationem maxime officiis, laborum perspiciatis eos laudantium, fugit tempora sit saepe explicabo, dicta unde iste. Ipsum ad sunt nihil!"
   },
@@ -90,7 +90,7 @@
     "displayCategory": "dress",
     "category": "accessories",
     "price": 3900,
-    "image": "assets/images/kurti.jpg",
+    "image": "assets/images/kurti.webp",
     "alt": "Classic dress",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, repellat blanditiis laborum quis laudantium natus. Harum, maxime. Temporibus non fuga dolorem aspernatur cupiditate, nobis similique expedita quo necessitatibus blanditiis assumenda."
   }

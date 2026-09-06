@@ -1,4 +1,26 @@
+const STORAGE_KEY_ADDED = "lookbook_added_items";
+const STORAGE_KEY_DELETED = "lookbook_deleted_ids";
 
+function loadFromStorage(key) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : [];
+    } catch (error) {
+        console.error(`Could not read ${key} from storage:`, error);
+        return [];
+    }
+}
+
+function saveToStorage(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.error(`Could not save ${key} to storage:`, error);
+    }
+}
+
+let addedItems = loadFromStorage(STORAGE_KEY_ADDED);
+let deletedIds = loadFromStorage(STORAGE_KEY_DELETED);
 const state = {
     items: [],
     nextId:1,
@@ -61,7 +83,7 @@ function buildCard(item) {
     img.src = item.image;
     img.alt = item.alt || item.name;
     img.loading = "lazy";
-    // if the image fails to load, fall back to the gradient placeholder
+    
     img.addEventListener("error", () => {
         img.remove();
     });
@@ -81,7 +103,10 @@ function buildCard(item) {
  
     const button = card.querySelector(".details-button");
     if (button) button.setAttribute("aria-label", `View details of ${item.name}`);
- 
+    const deleteButton = card.querySelector(".delete-button");
+    if (deleteButton) {
+        deleteButton.addEventListener("click", () => deleteItem(item.id));
+    }
     return card;
 }
  
@@ -106,6 +131,20 @@ function getFilteredItems() {
         return matchesCategory && matchesEra && matchesSearch;
     });
 }
+function deleteItem(id) {
+    state.items = state.items.filter((item) => item.id !== id);
+
+    if (!deletedIds.includes(id)) {
+        deletedIds.push(id);
+        saveToStorage(STORAGE_KEY_DELETED, deletedIds);
+    }
+
+    addedItems = addedItems.filter((item) => item.id !== id);
+    saveToStorage(STORAGE_KEY_ADDED, addedItems);
+
+    populateFilters();
+    render();
+}
  
 function updateResultCount(count) {
     if (!resultCount) return;
@@ -114,8 +153,11 @@ function updateResultCount(count) {
  
 function render() {
     if (state.isLoading) {
-        if (grid) grid.hidden = true;
-        if (emptyState) emptyState.hidden = true;
+       if (grid) {
+    grid.hidden = true;
+    grid.innerHTML = "";
+}
+if (emptyState) emptyState.hidden = false;
         if (loadingState) loadingState.hidden = false;
         return;
     }
@@ -185,7 +227,15 @@ function populateFilters() {
         }
     }
 }
- 
+ const searchForm = document.getElementById("search-form");
+
+if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        state.searchTerm = searchInput.value;
+        render();
+    });
+}
 /* ---------- data loading ---------- */
  
 async function loadItems() {
@@ -199,8 +249,12 @@ async function loadItems() {
         }
  
         const data = await response.json();
-        state.items = Array.isArray(data) ? data : [];
-        state.nextId = state.items.reduce((max, item) => Math.max(max, Number(item.id) || 0), 0) + 1;
+        const baseItems = Array.isArray(data) ? data : [];
+        const merged = [...baseItems, ...addedItems].filter(
+            (item) => !deletedIds.includes(item.id)
+        );
+        state.items = merged;
+        state.nextId = state.items.reduce((max, item) =>Math.max(max, Number(item.id) || 0), 0) + 1;
  
         state.isLoading = false;
         populateFilters();
@@ -214,7 +268,7 @@ async function loadItems() {
     }
 }
  
-/* ---------- event wiring: search & filters ---------- */
+
  
 if (searchInput) {
     searchInput.addEventListener("input", (e) => {
@@ -249,8 +303,7 @@ function clearAllFilters() {
  
 if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearAllFilters);
 if (clearSearchBtn) clearSearchBtn.addEventListener("click", clearAllFilters);
- 
-/* ---------- nav: scroll between Catalog / Add a piece ---------- */
+
  
 function setActiveNav(button) {
     [navCatalog, navAdd].forEach((btn) => {
@@ -279,7 +332,7 @@ if (navAdd) {
     });
 }
  
-/* ---------- add-item form ---------- */
+
  
 function setFieldError(field, hasError) {
     const wrapper = field.closest(".form-field");
@@ -330,8 +383,11 @@ if (itemForm) {
         };
  
         state.items.push(newItem);
-        populateFilters();
-        render();
+        addedItems.push(newItem);
+        saveToStorage(STORAGE_KEY_ADDED, addedItems);
+
+    populateFilters();
+    render();
  
         console.log("[Analytics] User interacted with Vintage Clothing Boutique Lookbook: item added");
  

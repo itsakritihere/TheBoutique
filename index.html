@@ -103,20 +103,20 @@
                 <!-- ====== SEARCH =========== -->
                 <div class="catalog-controls" aria-label="Search and filter the collection">
 
-              <div class="field field--search">
-                        <label for="search-input">
-                            
-                            Search the Collection
-                        </label>
-                         <input
-                            type="search"
-                            id="search-input"
-                            name="search"
-                            class="field__input"
-                            placeholder="Search by title, SKU, or description"
-                            autocomplete="off"
-                        >
-                    </div>
+             <div class="field field--search">
+    <label for="search-input">Search the Collection</label>
+    <form id="search-form" class="search-form" role="search">
+        <input
+            type="search"
+            id="search-input"
+            name="search"
+            class="field__input"
+            placeholder="Search by title, SKU, or description"
+            autocomplete="off"
+        >
+        <button type="submit" class="btn btn--search">Search</button>
+    </form>
+</div>
                         <div class="filters-row">
                         <div class="field">
                             <label for="category-filter" class="field__label">Category</label>
@@ -163,13 +163,17 @@
                             </div>
                             <h3 class="card-title"></h3>
                             <p class="card-description"></p>
-                            <div class="card-footer">
-                                <strong class="card-price"></strong>
-                                <button type="button" class="details-button">
-                                    View Details &rarr;
-                                </button>
-                            </div>
-                        </div>
+                           <div class="card-footer">
+            <strong class="card-price"></strong>
+            <div class="card-actions">
+                <button type="button" class="details-button">
+            View Details &rarr;
+        </button>
+        <button type="button" class="delete-button" aria-label="Delete this item">
+            Delete
+        </button>
+    </div>
+</div>
                     </article>
                 </template>
  
@@ -196,40 +200,7 @@
         </section>
  
  
-        <!-- ========== ABOUT ========== -->
-        <section class="about-section" id="about">
- 
-            <div class="container about-grid">
- 
-                <div class="about-label">
-                    <p class="eyebrow">THE ARCHIVE</p>
-                    <span>01 / 03</span>
-                </div>
- 
-                <div class="about-content">
- 
-                    <h2>
-                        Preserving pieces
-                        <em>worth remembering.</em>
-                    </h2>
- 
-                    <p>
-                        Maison Vintage brings together carefully selected
-                        clothing from different eras. Each piece is evaluated
-                        for its craftsmanship, condition and cultural
-                        character before entering our archive.
-                    </p>
- 
-                    <a href="#add-item" class="text-link">
-                        Add to the archive &rarr;
-                    </a>
- 
-                </div>
- 
-            </div>
- 
-        </section>
- 
+       
  
         <!-- ================= ADD ITEM ================= -->
         <section class="add-item-section" id="add-item">
@@ -253,6 +224,7 @@
                     </p>
  
                 </div>
+                
  
  
                 <form class="item-form" id="item-form" novalidate>
@@ -274,7 +246,7 @@
                                 required
                                 aria-required="true"
                             >
- 
+                                    <p class="field-error-msg" hidden>Please enter an item name.</p>
                         </div>
  
  
